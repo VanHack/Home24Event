@@ -1,0 +1,52 @@
+﻿@using SleekSoftMVCFramework.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_APPLoginPartial.cshtml";
+}
+
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form", role = "form" }))
+{
+             @*@Html.AntiForgeryToken()*@
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <h2>Login</h2>
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                <span>Enter any username and password. </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-solid placeholder-no-fix form-group", @placeholder = "Username", required = "required", autocomplete = "off" })
+                                  
+                                    </div>
+                                <div class="col-xs-6">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-solid placeholder-no-fix form-group", @placeholder = "Password", required = "required", autocomplete = "off" })
+                                  
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="rem-password">
+                                        <label class="rememberme mt-checkbox mt-checkbox-outline">                                         
+                                            @Html.CheckBoxFor(m => m.RememberMe)Remember Me
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 text-right">
+                                    <div class="forgot-password">
+                                        <a href="@Url.Action("ForgotPassword","Account")" id="forget-password" class="forget-password">Forgot password?</a>
+                                    </div>
+                                    <button class="btn green" type="submit">Sign In</button>
+                                </div>
+                            </div>
+}
+
+<!-- end wrapper -->
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

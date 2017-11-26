@@ -1,0 +1,108 @@
+﻿@model List<SleekSoftMVCFramework.ViewModel.ArtistViewModel>
+@{
+    ViewBag.Title = "Artist User";
+    //Layout = "~/Views/Shared/_APPLayout.cshtml";
+    Layout = "~/Views/Shared/_APPPortal.cshtml";
+}
+@Html.Partial("_ToastrViewHeader")
+
+
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>Artist</span><i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>User</span>
+        </li>
+    </ul>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">Event Time table</span>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <button type="submit" class="btn btn-primary" onclick="javascript: printDiv('calendar');">Print</button>
+                <div id='loading'>loading...</div>
+
+                <div id='calendar'></div>
+             </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+  
+    @section JavaScript
+    {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/DayPilot/moment.min.js")"></script>
+    <script src="~/Scripts/DayPilot/daypilot-all.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/DayPilot/fullcalendar.min.js")"></script>
+    <script type="text/javascript">
+
+                $(function () {
+                    $('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay,listWeek'
+                        },
+                        defaultDate: '@DateTime.Now.ToString("yyyy-MM-dd")',
+                        editable: true,
+                        navLinks: true, // can click day/week names to navigate views
+                        eventLimit: true, // allow "more" link when too many events
+                        events: {
+                            url: '../Event/getevents',
+                            error: function () {
+                                $('#script-warning').show();
+                            }
+                        },
+                        loading: function (bool) {
+                            $('#loading').toggle(bool);
+                        }
+                    });
+
+                    function printDiv(divID) {
+                        //Get the HTML of div
+
+                        var divElements = document.getElementById(divID).innerHTML;
+                        //Get the HTML of whole page
+                        var oldPage = document.body.innerHTML;
+
+                        //Reset the page's HTML with div's HTML only
+                        document.body.innerHTML =
+                       "<html><head><title></title></head><body>" + divElements + "</body>";
+
+                        //Print Page
+                        window.print();
+
+                        //Restore orignal HTML
+                        document.body.innerHTML = oldPage;
+                        document.close();
+                        location.reload();
+
+                    }
+
+                });
+
+    </script>
+
+
+    }
+</div>

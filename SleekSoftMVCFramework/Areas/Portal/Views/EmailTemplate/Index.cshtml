@@ -1,0 +1,158 @@
+﻿
+@model IEnumerable<SleekSoftMVCFramework.ViewModel.EmailViewModel>
+
+@{
+    ViewBag.Title = "System Email";
+    Layout = "~/Views/Shared/_APPPortal.cshtml";
+}
+
+@Html.Partial("_ToastrViewHeader")
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Email Template </h4>
+            <ol class="breadcrumb p-0 m-0">
+                <li>
+                     <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">Administration </a>
+                </li>
+                <li class="active">
+                    Email Template
+                </li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            @*<h4 class="m-t-0 header-title"><b>User</b></h4>*@
+            <a data-target='#addedit_modal' role="button" class="btn btn-primary  btn_add" data-toggle="modal">Add User</a>
+            <br />
+
+
+            <table id="emailtbl" class="table table-striped  table-colored table-info">
+                <br />
+                <br />
+                <thead>
+
+                    <tr>
+
+                        <th>Email Subject</th>
+                        <th>EmailCode</th>
+                        <th width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.EmailSubject)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EmailCode)</td>
+                            <td><a data-target='#addedit_modal' role='button' data-edit-id='@Html.DisplayFor(modelItem => item.EmailID)' class='btn btn-danger editBtn' data-toggle='modal'><i class='fa fa-edit'></i>Edit</a></td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="addedit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="addedit_modal_body">
+                </div>
+            </div>
+        </div>
+        <!--Delete User-->
+        <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="delete_content">
+                </div>
+            </div>
+        </div>
+        @section JavaScript
+        {
+        <script type="text/javascript">
+                    $(function () {
+
+                        var url = "";
+
+                        $.ajaxSetup({ cache: false });
+                        function bindForm(dialog) {
+
+                            $("form", dialog).submit(function () {
+                                $.ajax({
+                                    url: this.action,
+                                    type: this.method,
+                                    data: new FormData(this),
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (result) {
+                                        if (result.success) {
+                                            $('#addedit_modal').modal("hide");
+                                            // Refresh:
+                                            location.reload();
+
+                                        } else {
+
+                                            $('#addedit_modal_body').html(result);
+                                            bindForm();
+                                        }
+                                    }, error: function (request, status, error) {
+                                        alert(request.responseText);
+                                    }
+                                });
+
+
+                                return false;
+                            });
+                        }
+
+
+                        //Load the edit page
+                        $(".editBtn").click(function () {
+
+                            url = '@Url.Action("Edit", "EmailTemplate", new { area = "APPPortal", id = "_id_" })'.replace('_id_', $(this).data("edit-id"));
+                            console.log(url);
+
+                            $("#addedit_modal_body").load(url, function (responseTxt, statusTxt, xhr) {
+                                $("#addedit_modal").modal({
+                                    backdrop: 'static',
+                                    keyboard: true
+                                }, "show");
+                                bindForm(this);
+                            });
+                            return false;
+                        });
+
+
+                        $('#emailtbl').DataTable({
+                            "paging": true,
+                            "lengthChange": true,
+                            "searching": true,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": true,
+                            "order": [[0, "desc"]],
+                            dom: 'Bfltip',
+                            buttons: [
+                                'copy', 'csv', 'excel', 'pdf', 'print'
+                            ]
+                        });
+
+
+                    });
+
+        </script>
+
+        }
+    </div>
+</div>
+

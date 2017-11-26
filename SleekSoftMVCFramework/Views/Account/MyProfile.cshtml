@@ -1,0 +1,142 @@
+﻿@model SleekSoftMVCFramework.ViewModel.UserViewModel
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_APPPortalLayout.cshtml";
+}
+
+@Html.Partial("_ToastrViewHeader")
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Advanced Plugins </h4>
+                <ol class="breadcrumb p-0 m-0">
+                    <li>
+                         <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Forms </a>
+                    </li>
+                    <li class="active">
+                        Advanced Plugins
+                    </li>
+                </ol>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+@using (Html.BeginForm("MyProfile", "Account", new { area = " " }, FormMethod.Post, new
+{
+    @class = "form-horizontal",
+    role = "form"
+}))
+
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="card-box">
+                <div class="row m-t-50">
+                    <div class="col-sm-12">
+                        <div class="demo-box p-b-0">
+                            <h4 class="m-t-0 header-title"><b>My Profile</b></h4>
+                            @*<p class="text-muted font-13">
+                                You can limit the number of elements you are allowed to select via the
+                                <code>
+                                    data-max-option
+                                </code>
+                                attribute. It also works for option groups.
+                            </p>*@
+                        </div>
+
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="demo-box">
+
+                                    @Html.HiddenFor(m=>m.Id)
+
+                                        <div class="form-group">
+                                            <label class="control-label">LastName</label>
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "LastName" })
+                                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "vertical-spin" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Middle Name</label>
+
+                                            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control", @placeholder = "MiddleName" })
+                                            @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "vertical-spin" })
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">UserName</label>
+
+                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "UserName", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "vertical-spin" })
+                                        </div>
+                                        <div class="form-group m-b-0">
+                                            <label class="control-label">MobileNumber</label>
+                                            @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @placeholder = "MobileNumber" })
+                                            @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "vertical-spin" })
+                                        </div>
+
+
+                                    <div class="form-group m-b-0">
+                                        <label class="control-label">Date of Birth</label>
+                                            <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                                                @Html.TextBoxFor(model => model.DOB, new { @class = "form-control" })
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th"></span>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "vertical-spin" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="demo-box">
+                                    
+                                        <div class="form-group">
+                                            <label class="control-label">First Name</label>
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "FirstName" })
+                                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "vertical-spin" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">DefaultSender</label>
+                                            @Html.TextBoxFor(m => m.DefaultSender, new { @class = "form-control", @placeholder = "DefaultSender" })
+                                            @Html.ValidationMessageFor(m => m.DefaultSender, "", new { @class = "vertical-spin" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Email</label>
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "vertical-spin" })
+                                        </div>
+                                        <div class="form-group m-b-0">
+                                            <label class="control-label">PhoneNumber</label>
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "PhoneNumber" })
+                                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "vertical-spin" })
+                                        </div>
+                                </div>
+                            </div>
+                        </div> 
+
+
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-info waves-effect waves-light">Update</button>
+                        </div>
+                    </div> <!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+</div>
+   
+
+
